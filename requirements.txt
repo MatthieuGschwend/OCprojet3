@@ -1,8 +1,8 @@
-squarify
+squarify==0.4.3
 numpy==1.21.2
 pandas==1.3.0
 plotly-express==0.4.1
 streamlit==0.82.0
-seaborn
-matplotlib.pyplot 
-warnings
+seaborn==0.11.0
+matplotlib.pyplot==3.4.3
+
