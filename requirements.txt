@@ -5,4 +5,5 @@ plotly-express==0.4.1
 streamlit==0.82.0
 seaborn==0.11.0
 matplotlib==3.4.3
+warnings
 
