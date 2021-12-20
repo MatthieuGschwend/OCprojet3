@@ -389,16 +389,54 @@ def interface():
             
         if type_analyse == 'Multivariée':
             st.header('Analyse Multivariée')
-            st.subheader('ACP')
             st.subheader('Analyse en fonction du nutriscore')
+            st.write("Nous proposons à présent d'analyser 2 variables quantitatives selon une autre qualitative")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                var1 = st.selectbox('Variable quantitative 1 ',var_quanti)
+                min_var1 = int(data[var1].min())
+                max_var1 = int(data[var1].max())
+                masque_var1 = st.slider('Plage de valeurs',min_var1, max_var1,(min_var1,max_var1))
+                data_ = data[data[var1] > masque_var1[0]]
+                data_ = data[data[var1] < masque_var1[1]]
+            with col2:
+                var2 = st.selectbox('Variable quantitative 2 ',var_quanti)
+                min_var2 = int(data[var2].min())
+                max_var2 = int(data[var2].max())
+                masque_var2 = st.slider(' Plage de valeurs',min_var2, max_var2, (min_var2, max_var2))
+                data_ = data_[data_[var2] > masque_var2[0]]
+                data_ = data_[data_[var2] < masque_var2[1]]
+            with col3:
+                var_3 = st.selectbox('Variable qualitative',var_quali)
+            
+            fig = px.scatter(data_, x=var1, y=var2, color=var_3, marginal_y="box",
+                             marginal_x="box", trendline="ols", template="simple_white")
+            st.plotly_chart(fig, use_container_width= True)
+
+            st.subheader('ACP')
+            st.write("Nous présentons une analyse en composante principale : Ebloui des valeurs propres, cercles des corrélations, projection des individus")
+            st.image('ebloui.png')
+            col4, col5 = st.columns(2)
+            with col4:
+                st.image('f1f2.png')
+                st.image('f3f1.png')
+                st.image('f3f2.png')
+            with col5:
+                st.image('pf1f2.png')
+                st.image('pf3f1.png')
+                st.image('pf3f2.png')
+                
+            
 
 
     if nom_analyse == 'Comparateur de produit':
-        st.title('Vous aider à faire le plein de calcium et de vitamines D')
+        st.title('Vous aider à faire le plein de calcium et de vitamine D')
         st.write("Selon la catégorie de votre choix nous vous proposons les 10 meilleurs produits selon le scoring suivant : ")
         st.write("Nous donnons une note entre 0 et 100 en fonction du taux de calcium, à cela nous soustrayons le nutriscore ")
         
-        test = st.selectbox('Selectionner une categorie de produit', data['pnns_groups_1'].unique())
+        ppnnunique = np.delete(data['pnns_groups_1'].unique(), 0)
+        test = st.selectbox('Selectionner une categorie de produit', ppnnunique)
+        st.write(type(data['pnns_groups_1'].unique()))
         # Calcul du score
         data_ = data.copy()
         score = quantile_param(data_[data['pnns_groups_1'] == test]['calcium_100g'])
