@@ -1,8 +1,8 @@
-import streamlit 
-import pandas 
-import seaborn 
-import matplotlib.pyplot 
-import warnings
-import numpy 
-import plotly_express 
-import squarify
+squarify
+numpy==1.21.2
+pandas==1.3.0
+plotly-express==0.4.1
+streamlit==0.82.0
+seaborn
+matplotlib.pyplot 
+warnings
